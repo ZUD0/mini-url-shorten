@@ -13,6 +13,8 @@ functions/package-lock.json
 .env
 *.env
 
+firebase-debug.*.log
+
 # Build outputs
 build/
 dist/
