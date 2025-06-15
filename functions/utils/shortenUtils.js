@@ -1,7 +1,7 @@
 const admin = require('firebase-admin');
-console.log("Admin module in shortenUtils:", admin);
-console.log("Firestore namespace:", admin.firestore);
-console.log("Timestamp property:", admin.firestore ? admin.firestore.Timestamp : "Undefined");
+// console.log("Admin module in shortenUtils:", admin);
+// console.log("Firestore namespace:", admin.firestore);
+// console.log("Timestamp property:", admin.firestore ? admin.firestore.Timestamp : "Undefined");
 const db = admin.firestore();
 
 const shortenUrl = async (req, res) => {
@@ -11,9 +11,9 @@ const shortenUrl = async (req, res) => {
   }
 
   try {
-    console.log("Querying available keys...");
+    // console.log("Querying available keys...");
     const keyDoc = await db.collection("keys").where("status", "==", "available").limit(1).get();
-    console.log("Query result size:", keyDoc.size);
+    // console.log("Query result size:", keyDoc.size);
     if (keyDoc.empty) {
       return res.status(500).json({ error: "No available keys" });
     }
