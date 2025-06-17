@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
   max-width: 600px;
   margin: 50px auto;
@@ -45,4 +45,8 @@ a {
 
 a:hover {
   text-decoration: underline;
+} */
+
+body {
+  background-color: #f9fafb;
 }
