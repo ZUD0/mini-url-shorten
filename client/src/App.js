@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { Container, Typography, Box, CssBaseline } from '@mui/material';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ShortenForm from './components/ShortenForm';
@@ -9,18 +10,15 @@ import Analytics from './components/Analytics';
 import BulkShorten from './components/BulkShorten';
 import BrandedDomain from './components/BrandedDomain';
 import './App.css';
-import { auth } from './firebase';
+import { AuthContext } from './context/AuthContext';
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  const { user } = useContext(AuthContext);
+  const [showAuthModal, setShowAuthModal] = React.useState(false);
   const [shortenedUrls, setShortenedUrls] = useState([]); // Mock state for URLs
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
-    });
-    return unsubscribe;
+    // No need to set user here since AuthContext handles it
   }, []);
 
   const addShortenedUrl = (url) => {
@@ -28,43 +26,43 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen">
+    <BrowserRouter>
+      <CssBaseline />
+      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <Header user={user} setShowAuthModal={setShowAuthModal} />
         {showAuthModal && <AuthModal setShowAuthModal={setShowAuthModal} />}
-        <main className="flex-grow container mx-auto px-4 py-8">
-          <Switch>
-            <Route exact path="/">
-              <div className="text-center">
-                <h1 className="text-3xl font-bold text-blue-600 mb-4">The Original URL Shortener</h1>
-                <p className="text-lg mb-6">Create shorter URLs with our service.</p>
-                <ShortenForm addShortenedUrl={addShortenedUrl} user={user} />
-                <p className="mt-6">
-                  Want more?{' '}
-                  <Link to="/dashboard" className="text-blue-600 hover:underline">
-                    Track analytics, use branded domains, and manage links
-                  </Link>
-                  .
-                </p>
-              </div>
-            </Route>
-            <Route path="/dashboard">
-              <Dashboard shortenedUrls={shortenedUrls} setShortenedUrls={setShortenedUrls} user={user} />
-            </Route>
-            <Route path="/analytics/:id">
-              <Analytics shortenedUrls={shortenedUrls} />
-            </Route>
-            <Route path="/bulk">
-              <BulkShorten addShortenedUrl={addShortenedUrl} user={user} />
-            </Route>
-            <Route path="/branded">
-              <BrandedDomain user={user} />
-            </Route>
-          </Switch>
-        </main>
+        <Box component="main" sx={{ flexGrow: 1, py: 4 }}>
+          <Container maxWidth="md">
+            <Routes>
+              <Route path="/" element={
+                <Box textAlign="center">
+                  <Typography variant="h3" color="primary" gutterBottom>
+                    The Original URL Shortener
+                  </Typography>
+                  <Typography variant="h6" gutterBottom>
+                    Create shorter URLs with our service.
+                  </Typography>
+                  <ShortenForm addShortenedUrl={addShortenedUrl} user={user} />
+                  {user && (
+                    <Typography mt={4}>
+                      Want more?{' '}
+                      <Link to="/dashboard" style={{ color: '#1976d2', textDecoration: 'underline' }}>
+                        Track analytics, use branded domains, and manage links
+                      </Link>
+                    </Typography>
+                  )}
+                </Box>
+              } />
+              <Route path="/dashboard" element={user ? <Dashboard shortenedUrls={shortenedUrls} setShortenedUrls={setShortenedUrls} user={user} /> : <Navigate to="/" />} />
+              <Route path="/analytics/:id" element={user ? <Analytics shortenedUrls={shortenedUrls} /> : <Navigate to="/" />} />
+              <Route path="/bulk" element={user ? <BulkShorten addShortenedUrl={addShortenedUrl} user={user} /> : <Navigate to="/" />} />
+              <Route path="/branded" element={user ? <BrandedDomain user={user} /> : <Navigate to="/" />} />
+            </Routes>
+          </Container>
+        </Box>
         <Footer />
-      </div>
-    </Router>
+      </Box>
+    </BrowserRouter>
   );
 }
 

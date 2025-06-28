@@ -1,0 +1,23 @@
+export default {
+  appName: 'minyURL',
+  signIn: 'Sign In',
+  signUp: 'Sign Up',
+  email: 'Email',
+  password: 'Password',
+  google: 'Sign in with Google',
+  already: 'Already have an account?',
+  need: 'Need an account?',
+  terms: 'Terms of Service',
+  privacy: 'Privacy Policy',
+  cookies: 'Cookies',
+  myUrls: 'My URLs',
+  bulkShorten: 'Bulk Shorten',
+  brandedDomains: 'Branded Domains',
+  signOut: 'Sign Out',
+  noUrls: 'No URLs shortened yet. Shorten one now',
+  profile: 'Profile',
+  analytics: 'Analytics',
+  edit: 'Edit',
+  delete: 'Delete',
+  copyright: '© 2025 minyURL Clone. All rights reserved.'
+};

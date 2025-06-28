@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Typography, Box } from '@mui/material'; // Add Box import
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -12,7 +12,6 @@ function Analytics({ shortenedUrls }) {
 
   if (!url) return <Typography>URL not found.</Typography>;
 
-  // Mock analytics data
   const data = {
     labels: ['India', 'USA', 'UK'],
     datasets: [
@@ -36,7 +35,7 @@ function Analytics({ shortenedUrls }) {
         <Typography><strong>Short URL:</strong> {url.shortUrl}</Typography>
         <Typography><strong>Original URL:</strong> {url.longUrl}</Typography>
         <Typography><strong>Total Clicks:</strong> {url.clicks}</Typography>
-        <Box mt={4}>
+        <Box sx={{ mt: 4 }}> {/* Box is now defined */}
           <Bar data={data} options={options} />
         </Box>
       </CardContent>

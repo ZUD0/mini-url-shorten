@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import Papa from 'papaparse';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Card, CardContent, TextField, Button, Alert, Typography } from '@mui/material';
 
 function BulkShorten({ addShortenedUrl, user }) {
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!user) {
       setError('Please sign in.');
-      history.push('/');
+      navigate('/');
       return;
     }
     if (!file) {
@@ -26,34 +27,38 @@ function BulkShorten({ addShortenedUrl, user }) {
             addShortenedUrl({ longUrl: row[0], shortUrl, alias: '', clicks: 0 });
           }
         });
-        history.push('/dashboard');
+        navigate('/dashboard');
       },
       header: false,
     });
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">Bulk Shorten URLs</h2>
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-        <div className="mb-4">
-          <label className="block text-gray-700">Upload CSV (long URLs in first column)</label>
-          <input
+    <Card sx={{ maxWidth: 400, mx: 'auto', mt: 4 }}>
+      <CardContent>
+        <Typography variant="h4" gutterBottom>Bulk Shorten URLs</Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Upload CSV (long URLs in first column)"
             type="file"
-            accept=".csv"
+            InputLabelProps={{ shrink: true }}
+            inputProps={{ accept: '.csv' }}
             onChange={(e) => setFile(e.target.files[0])}
-            className="w-full p-2 border rounded"
+            fullWidth
+            margin="normal"
           />
-        </div>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-        >
-          Shorten URLs
-        </button>
-      </form>
-    </div>
+          {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{ mt: 2 }}
+          >
+            Shorten URLs
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }
 

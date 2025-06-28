@@ -1,0 +1,23 @@
+export default {
+  appName: 'minyURL',
+  signIn: 'साइन इन',
+  signUp: 'साइन अप',
+  email: 'ईमेल',
+  password: 'पासवर्ड',
+  google: 'Google से साइन इन',
+  already: 'क्या आपके पास पहले से खाता है?',
+  need: 'खाते की आवश्यकता है?',
+  terms: 'सेवा की शर्तें',
+  privacy: 'गोपनीयता नीति',
+  cookies: 'कुकीज़',
+  myUrls: 'मेरे URL',
+  bulkShorten: 'बड़े पैमाने पर संक्षिप्त करें',
+  brandedDomains: 'ब्रांडेड डोमेन',
+  signOut: 'साइन आउट',
+  noUrls: 'कोई URL संक्षिप्त नहीं किया गया। अभी एक संक्षिप्त करें',
+  profile: 'प्रोफ़ाइल',
+  analytics: 'विश्लेषण',
+  edit: 'संपादित करें',
+  delete: 'हटाएं',
+  copyright: '© 2025 minyURL क्लोन। सर्वाधिकार सुरक्षित।'
+};
